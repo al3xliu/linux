@@ -4,6 +4,22 @@
 
 This document explains how to set up a high-available redis master-slave cluster base on `redis sentinel`, you can review sentinel official document https://redis.io/topics/sentinel. The following content will lead you to set up them both in test env(one node) and production environment(distributed).
 
+## Architecture
+
+The architecture looks like this:
+
+<center><img src="./imgs/redis-sentinal-architecture.png"></center>
+
+So what will happen when the master shutdown?
+
+- Sentinal will prompt a proper slave to be a master
+
+<center><img src="./imgs/redis-master-shutdown.png"></center>
+
+- If start the master again, the master will become a slave then join the new master
+
+<center><img src="./imgs/redis-sentinal-new-master.png"></center>
+
 ## Running on One Node
 
 ```sh
@@ -14,7 +30,7 @@ docker build -t sentinel
 
 ## Running on Distributed Env(Docker Swarm)
 
-- Build image
+- Build image in every node
 
 ```sh
 cd sentinel
