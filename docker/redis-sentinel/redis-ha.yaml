@@ -16,6 +16,8 @@ services:
     networks:
       - outside
     hostname: "redis-slave1"
+    depends_on:
+      - redis-master
     command: ["redis-server", "--slaveof", "redis-master", "6379"]
     deploy:
       placement:
@@ -27,26 +29,70 @@ services:
     networks:
       - outside
     hostname: "redis-slave2"
+    depends_on:
+      - redis-master
     command: ["redis-server", "--slaveof", "redis-master", "6379"]
     deploy:
       placement:
         constraints: [node.labels.host==4]
       replicas: 1
 
-  sentinel:
+  sentinel1:
     image: sentinel
     networks:
       - outside
     hostname: "sentinel1"
+    depends_on:
+      - redis-master
+      - redis-slave1
+      - redis-slave2
     environment:
       - SENTINEL_DOWN_AFTER:10000
       - SENTINEL_FAILOVER:10000
       - SENTINEL_QUORUM:2
-      - MASTER_IP=redis-master
+      - MASTER_IP=10.0.1.43
     deploy:
-      # placement:
-      #   constraints: [node.labels.host==6]
-      replicas: 3
+      placement:
+        constraints: [node.labels.host==6]
+      replicas: 1
+
+  sentinel2:
+    image: sentinel
+    networks:
+      - outside
+    hostname: "sentinel2"
+    depends_on:
+      - redis-master
+      - redis-slave1
+      - redis-slave2
+    environment:
+      - SENTINEL_DOWN_AFTER:10000
+      - SENTINEL_FAILOVER:10000
+      - SENTINEL_QUORUM:2
+      - MASTER_IP=10.0.1.43
+    deploy:
+      placement:
+        constraints: [node.labels.host==5]
+      replicas: 1
+
+  sentinel3:
+    image: sentinel
+    networks:
+      - outside
+    hostname: "sentinel3"
+    depends_on:
+      - redis-master
+      - redis-slave1
+      - redis-slave2
+    environment:
+      - SENTINEL_DOWN_AFTER:10000
+      - SENTINEL_FAILOVER:10000
+      - SENTINEL_QUORUM:2
+      - MASTER_IP=10.0.1.43
+    deploy:
+      placement:
+        constraints: [node.labels.host==4]
+      replicas: 1
 
 networks:
   outside:
