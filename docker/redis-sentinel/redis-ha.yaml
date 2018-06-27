@@ -1,124 +1,52 @@
 version: "3.3"
 
 services:
-  master:
-    image: mongo:3.4
+  redis-master:
+    image: redis:3.2
     networks:
       - outside
-    hostname: "master"
-    volumes:
-      - mongodata:/data/db
-      - mongoconfigdb:/data/configdb
-      - mongokeyfile:/opt/keyfile
-    environment:
-      - keyFile:/opt/keyfile/mongodb-keyfile
-    command: ["mongod", "--replSet", "rs0"]
+    hostname: "redis-master"
     deploy:
       placement:
         constraints: [node.labels.host==6]
       replicas: 1
 
-  slave1:
-    image: mongo:3.4
+  redis-slave1:
+    image: redis:3.2
     networks:
       - outside
-    hostname: "mongo2"
-    volumes:
-      - mongodata:/data/db
-      - mongoconfigdb:/data/configdb
-      - mongokeyfile:/opt/keyfile
-    environment:
-      - keyFile:/opt/keyfile/mongodb-keyfile
-    command: ["mongod", "--replSet", "rs0"]
+    hostname: "redis-slave1"
+    command: ["redis-server", "--slaveof", "redis-master", "6379"]
     deploy:
       placement:
         constraints: [node.labels.host==5]
       replicas: 1
 
-  slave2:
-    image: mongo:3.4
+  redis-slave2:
+    image: redis:3.2
     networks:
       - outside
-    hostname: "mongo3"
-    volumes:
-      - mongodata:/data/db
-      - mongoconfigdb:/data/configdb
-      - mongokeyfile:/opt/keyfile
-    environment:
-      - keyFile:/opt/keyfile/mongodb-keyfile
-    command: ["mongod", "--replSet", "rs0"]
+    hostname: "redis-slave2"
+    command: ["redis-server", "--slaveof", "redis-master", "6379"]
     deploy:
       placement:
         constraints: [node.labels.host==4]
       replicas: 1
 
-  slave2:
-    image: mongo:3.4
-    networks:
-      - outside
-    hostname: "mongo3"
-    volumes:
-      - mongodata:/data/db
-      - mongoconfigdb:/data/configdb
-      - mongokeyfile:/opt/keyfile
-    environment:
-      - keyFile:/opt/keyfile/mongodb-keyfile
-    command: ["mongod", "--replSet", "rs0"]
-    deploy:
-      placement:
-        constraints: [node.labels.host==4]
-      replicas: 1
-
-  sentinel1:
+  sentinel:
     image: sentinel
     networks:
       - outside
-    hostname: "mongo3"
-    volumes:
-      - mongodata:/data/db
-      - mongoconfigdb:/data/configdb
-      - mongokeyfile:/opt/keyfile
+    hostname: "sentinel1"
     environment:
-      - keyFile:/opt/keyfile/mongodb-keyfile
-    command: ["mongod", "--replSet", "rs0"]
+      - SENTINEL_DOWN_AFTER:10000
+      - SENTINEL_FAILOVER:10000
+      - SENTINEL_QUORUM:2
+      - MASTER_IP=redis-master
     deploy:
-      placement:
-        constraints: [node.labels.host==4]
-      replicas: 1
-
-  sentinel2:
-    image: sentinel
-    networks:
-      - outside
-    hostname: "mongo3"
-    volumes:
-      - mongodata:/data/db
-      - mongoconfigdb:/data/configdb
-      - mongokeyfile:/opt/keyfile
-    environment:
-      - keyFile:/opt/keyfile/mongodb-keyfile
-    command: ["mongod", "--replSet", "rs0"]
-    deploy:
-      placement:
-        constraints: [node.labels.host==4]
-      replicas: 1
-
-  sentinel2:
-    image: sentinel
-    networks:
-      - outside
-    hostname: "mongo3"
-    volumes:
-      - mongodata:/data/db
-      - mongoconfigdb:/data/configdb
-      - mongokeyfile:/opt/keyfile
-    environment:
-      - keyFile:/opt/keyfile/mongodb-keyfile
-    command: ["mongod", "--replSet", "rs0"]
-    deploy:
-      placement:
-        constraints: [node.labels.host==4]
-      replicas: 1
+      # placement:
+      #   constraints: [node.labels.host==6]
+      replicas: 3
 
 networks:
   outside:
