@@ -16,9 +16,9 @@ redis-server /usr/local/etc/redis/redis.conf --slaveof 127.0.0.1 6379
 
 docker run --name="redis-slave2" \
 --network=host \
--v ./conf/slave2.conf:/usr/local/etc/redis/redis.conf \
+-v `pwd`/conf/slave2.conf:/usr/local/etc/redis/redis.conf \
 -d redis:3.2 \
-redis-server /usr/local/etc/redis/redis.conf --slaveof 192.168.15.119 6379
+redis-server /usr/local/etc/redis/redis.conf --slaveof 127.0.0.1 6379
 
 docker run -d --name='sentinel' \
 --network=host \
