@@ -147,7 +147,7 @@ replace MASTER_IP, deploy, redis-master parameters with your own environment val
 - Deploy this stack
 
 ```sh
-docker deploy -c redis-ha.yaml redis-ha
+docker stack deploy -c redis-ha.yaml redis-ha
 ```
 
 ## How Does Client Connect to Them(Java)
