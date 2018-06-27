@@ -1,0 +1,126 @@
+version: "3.3"
+
+services:
+  master:
+    image: mongo:3.4
+    networks:
+      - outside
+    hostname: "master"
+    volumes:
+      - mongodata:/data/db
+      - mongoconfigdb:/data/configdb
+      - mongokeyfile:/opt/keyfile
+    environment:
+      - keyFile:/opt/keyfile/mongodb-keyfile
+    command: ["mongod", "--replSet", "rs0"]
+    deploy:
+      placement:
+        constraints: [node.labels.host==6]
+      replicas: 1
+
+  slave1:
+    image: mongo:3.4
+    networks:
+      - outside
+    hostname: "mongo2"
+    volumes:
+      - mongodata:/data/db
+      - mongoconfigdb:/data/configdb
+      - mongokeyfile:/opt/keyfile
+    environment:
+      - keyFile:/opt/keyfile/mongodb-keyfile
+    command: ["mongod", "--replSet", "rs0"]
+    deploy:
+      placement:
+        constraints: [node.labels.host==5]
+      replicas: 1
+
+  slave2:
+    image: mongo:3.4
+    networks:
+      - outside
+    hostname: "mongo3"
+    volumes:
+      - mongodata:/data/db
+      - mongoconfigdb:/data/configdb
+      - mongokeyfile:/opt/keyfile
+    environment:
+      - keyFile:/opt/keyfile/mongodb-keyfile
+    command: ["mongod", "--replSet", "rs0"]
+    deploy:
+      placement:
+        constraints: [node.labels.host==4]
+      replicas: 1
+
+  slave2:
+    image: mongo:3.4
+    networks:
+      - outside
+    hostname: "mongo3"
+    volumes:
+      - mongodata:/data/db
+      - mongoconfigdb:/data/configdb
+      - mongokeyfile:/opt/keyfile
+    environment:
+      - keyFile:/opt/keyfile/mongodb-keyfile
+    command: ["mongod", "--replSet", "rs0"]
+    deploy:
+      placement:
+        constraints: [node.labels.host==4]
+      replicas: 1
+
+  sentinel1:
+    image: sentinel
+    networks:
+      - outside
+    hostname: "mongo3"
+    volumes:
+      - mongodata:/data/db
+      - mongoconfigdb:/data/configdb
+      - mongokeyfile:/opt/keyfile
+    environment:
+      - keyFile:/opt/keyfile/mongodb-keyfile
+    command: ["mongod", "--replSet", "rs0"]
+    deploy:
+      placement:
+        constraints: [node.labels.host==4]
+      replicas: 1
+
+  sentinel2:
+    image: sentinel
+    networks:
+      - outside
+    hostname: "mongo3"
+    volumes:
+      - mongodata:/data/db
+      - mongoconfigdb:/data/configdb
+      - mongokeyfile:/opt/keyfile
+    environment:
+      - keyFile:/opt/keyfile/mongodb-keyfile
+    command: ["mongod", "--replSet", "rs0"]
+    deploy:
+      placement:
+        constraints: [node.labels.host==4]
+      replicas: 1
+
+  sentinel2:
+    image: sentinel
+    networks:
+      - outside
+    hostname: "mongo3"
+    volumes:
+      - mongodata:/data/db
+      - mongoconfigdb:/data/configdb
+      - mongokeyfile:/opt/keyfile
+    environment:
+      - keyFile:/opt/keyfile/mongodb-keyfile
+    command: ["mongod", "--replSet", "rs0"]
+    deploy:
+      placement:
+        constraints: [node.labels.host==4]
+      replicas: 1
+
+networks:
+  outside:
+    external:
+      name: "host"
