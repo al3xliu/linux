@@ -50,7 +50,7 @@ services:
       - SENTINEL_DOWN_AFTER:10000
       - SENTINEL_FAILOVER:10000
       - SENTINEL_QUORUM:2
-      - MASTER_IP=10.0.1.43
+      - MASTER_IP=redis-master
     deploy:
       placement:
         constraints: [node.labels.host==6]
@@ -69,7 +69,7 @@ services:
       - SENTINEL_DOWN_AFTER:10000
       - SENTINEL_FAILOVER:10000
       - SENTINEL_QUORUM:2
-      - MASTER_IP=10.0.1.43
+      - MASTER_IP=redis-master
     deploy:
       placement:
         constraints: [node.labels.host==5]
@@ -88,7 +88,7 @@ services:
       - SENTINEL_DOWN_AFTER:10000
       - SENTINEL_FAILOVER:10000
       - SENTINEL_QUORUM:2
-      - MASTER_IP=10.0.1.43
+      - MASTER_IP=redis-master
     deploy:
       placement:
         constraints: [node.labels.host==4]
