@@ -45,6 +45,12 @@ Here list the explain of the options:
   + -p expose a port so you can connect to this container from outside. as -v the first is source and the second is dst
   + --restart=always always restart when container shutdown
 
+- Access in a container
+
+```bash
+docker exec -it mongo bash
+```
+
 - List all running containers
 
 ```bash
