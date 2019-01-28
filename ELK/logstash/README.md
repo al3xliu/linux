@@ -46,9 +46,7 @@ filter {
 	grok {
 		#2019-01-02T17:49:31.107+08:00 9104 main - media_process.go:106 VideoCombination - DEBU combine video successfully!
 		match => { "message" => "%{TIMESTAMP_ISO8601:hh} %{NUMBER:process} %{WORD:package} - %{DATA:file}:%{NUMBER:line} %{WORD:func} - %{WORD:level} %{GREEDYDATA:message}" }
-		add_field => {
-			"level2": "%{level}"
-		}
+		add_field =>{"level2" => "%{level}"}
 	}
 }
 
