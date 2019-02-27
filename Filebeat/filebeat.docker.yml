@@ -1,3 +1,10 @@
+filebeat.inputs:
+- type: log
+  enabled: true
+  paths:
+    - /usr/share/filebeat/logs/*.log
+    - /var/log/*.log
+
 filebeat.config:
   modules:
     path: ${path.config}/modules.d/*.yml
@@ -18,7 +25,7 @@ processors:
 
 output.kafka:
   # initial brokers for reading cluster metadata
-  hosts: ["192.168.1.138:9092"]
+  hosts: ["192.168.3.2:9092"]
 
   # message topic selection + partitioning
   topic: 'test'
