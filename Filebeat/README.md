@@ -23,5 +23,4 @@ docker run -d \
   --volume="/var/lib/docker/containers:/var/lib/docker/containers:ro" \
   --volume="/var/run/docker.sock:/var/run/docker.sock:ro" \
   docker.elastic.co/beats/filebeat:6.6.1 filebeat -e -strict.perms=false \
-  -E output.elasticsearch.hosts=["localhost:9200"]  
 ```
