@@ -199,3 +199,5 @@ GET localhost:9200/shakespeare/_search
     }
 }
 ```
+
+https://www.elastic.co/guide/en/elasticsearch/reference/current/common-options.html#date-math
