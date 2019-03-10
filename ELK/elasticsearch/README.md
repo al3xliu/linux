@@ -189,7 +189,7 @@ By default we cannot do aggregations in analyzed fields.
 ```json
 GET localhost:9200/shakespeare/_search
 {
-    "size":0,
+    "size":0, // return only aggregations results.
     "aggs" : {
         "Total plays" : {
             "cardinality" : {
