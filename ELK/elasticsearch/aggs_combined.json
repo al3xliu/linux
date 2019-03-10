@@ -1,0 +1,17 @@
+{
+    "size":0,
+    "aggs" : {
+        "Total plays" : {
+            "terms" : {
+                "field" : "play_name.keyword"
+            },
+            "aggs" : {
+             "Per type" : {
+                 "terms" : {
+                     "field" : "_type"
+                  }
+             }
+            }
+        }
+    }
+}

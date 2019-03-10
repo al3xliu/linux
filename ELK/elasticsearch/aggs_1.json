@@ -1,0 +1,10 @@
+{
+    "size":0,
+    "aggs" : {
+        "Total plays" : {
+            "cardinality" : {
+                "field" : "play_name.keyword"
+            }
+        }
+    }
+}
