@@ -201,3 +201,34 @@ GET localhost:9200/shakespeare/_search
 ```
 
 https://www.elastic.co/guide/en/elasticsearch/reference/current/common-options.html#date-math
+
+
+
+### Case
+
+- Date Histogram Aggregations
+
+https://www.elastic.co/guide/cn/elasticsearch/guide/current/_looking_at_time.html
+
+Statics amount by date, and we could set interval.
+
+min_doc_count: only showed when reach the minimal threshold.
+
+other_bucket_keys
+
+```json
+{
+  "size": 0,
+  "aggs" : {
+    "messages" : {
+      "filters" : {
+        "other_bucket_key": "other_messages",
+        "filters" : {
+          "errors" :   { "match" : { "body" : "error"   }},
+          "warnings" : { "match" : { "body" : "warning" }}
+        }
+      }
+    }
+  }
+}
+```
