@@ -40,3 +40,9 @@
 
   <dump> is checked by the dump(8) utility.
   <fsck> sets the order for filesystem checks at boot time; see fsck(8).
+
+  compare file contents
+
+  ```
+  diff -w file1 file2
+  ```
