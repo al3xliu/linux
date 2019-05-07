@@ -46,3 +46,19 @@
   ```
   diff -w file1 file2
   ```
+
+
+  - kill a process
+  ```sh
+  pgrep -f setup|xargs kill
+  pkill -f setup
+  ```
+
+  - vim block insert
+
+  ```
+  ctrl + v
+  shift + i or uppercase i
+  input
+  ESC
+  ```
