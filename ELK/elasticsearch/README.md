@@ -277,3 +277,10 @@ Every so often, Elasticsearch will "flush", which means fsync'ing the segments, 
 The more segments there are, the longer each search takes. So Elasticsearch will merge a number of segments of a similar size ("tier") into a single bigger segment, through a background merge process. Once the new bigger segment is written, the old segments are dropped. This process is repeated on the bigger segments when there are too many of the same size.
 
 Segments are immutable. When a document is updated, it actually just marks the old document as deleted, and indexes a new document. The merge process also expunges these old deleted documents.
+
+
+## Query
+
+- keyword and text
+
+  When a field insert into ES, it'll be split into muliple parts, for example, "I Love" will be sliced to "I" and "love". You couldn't search results even as you have filled your statement without .keyword.
