@@ -62,3 +62,7 @@
   input
   ESC
   ```
+
+### mod
+
+No larger than one number
